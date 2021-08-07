@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+<!-- <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script> -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<!-- <link rel="stylesheet" href="../css/login.css"> -->
+<link rel="stylesheet" href="../css/index.css">
+<link rel="stylesheet" href="../css/post.css">
+
+</head>
+<body>
+
+  <%- include('./partials/teacher_navbar')%>
+
+<body>
+
+    <div class="question-asked">
+          
+          
+        
+        <div class="qa">
+            <div class="view">Question asked by student:-</div><br><br>
+            <%- data.question%> <br><br>
+            
+            
+               <div class="view">Answered by you:-</div> <br>
+                <%- data.answer%>
+                 
+               <br><br>
+               <div id = "option" class="option container " style="display: block; margin: -30px;">
+                <div class=" fixed-content">
+                  <div class=" option1">
+                    <button id="nextbtn" class="btn btn-primary skip">Next</button>
+                  </div>
+                  
+                </div>
+              </div>
+           
+        </div>
+         
+        <!-- <div>
+            <div>Questions asked by you - <br>
+            <%- data.question%>
+    
+            <% if(data.answer) { %>
+                Answer - <br>
+                <%- data.answer%>
+            <% }else{ %>
+                This question has not been answered yet
+            <%}%>
+            </div>
+        </div> -->
+    
+       
+     </div>
+     
+    
+
+    
+
+  <script src="css/bootstrap-4.0.0-dist/js/jquery-3.5.1.min.js"></script>
+  <script src="css/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    
+  <script>
+    $('.skip').click(function(){
+     window.location.reload() = "view-answer";
+   })
+ </script>
+</body>
+</html>

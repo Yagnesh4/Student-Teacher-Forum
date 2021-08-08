@@ -18,7 +18,8 @@
   <%- include('./partials/teacher_navbar')%>
 
 <body>
-
+<% if(data){ %>  
+  <% if(!data.skip){ %>
     <div class="question-asked">
           
           
@@ -59,8 +60,15 @@
        
      </div>
      
+   <% }else{ %>
+      answer it 
+    <% } %>
+<% }else{ %>
+      <div class="nothing">
+        <div class="text">No <span>questions</span> answered. </div>
+      </div>  
+<%}%>
     
-
     
 
   <script src="css/bootstrap-4.0.0-dist/js/jquery-3.5.1.min.js"></script>

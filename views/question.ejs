@@ -82,39 +82,11 @@
                 <input id="submit" type="submit" onclick="tinyMCE.triggerSave(true,true);"  value="Post Question" >
             </div>
         </form><br><br>
-        <!-- <form class="upload" action="/upload" enctype="multipart/form-data" method="POST">
-          <input type="file" name="file" accept="image/*">
-            <input type="submit" value="Upload">
-        </form> -->
-        <!-- <div class="question-asked">
-          
-          
-           <% data.forEach(function(item){ %>
-            <div class="qa">
-            questions asked by you:-<br><br>
-             	<%- item.question %><br>
-               <div>
-                 <% if (item.image) { %>
-                 <img src="./uploads/<%= item.image %>" alt="image" width="100px" height="100px">
-                 <% } %>
-               </div>
-               <% if(item.answer) {%>
-                  <div class="">
-                      <button id="qbtn1" class="btn btn-primary" onclick="showHideDiv('view');">View Answer</button>
-                  </div>
-
-                  <div id="view" style="display: none;">
-                      <%= item.answer%>
-                      
-                  </div>
-                <% }%>
-            </div>
-             <%  }) %>
-          
-              
-        </div> -->
+        
     </div>
+    <%if(data){%>
     <div class="view-qa">Click <a href="view-qa">here</a> to see your previous questions.</div>
+    <%}%>
 </div>
 
 <script>

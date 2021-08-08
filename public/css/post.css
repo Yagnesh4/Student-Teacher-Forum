@@ -398,3 +398,15 @@
     color: white;
     font-weight: bold;
 }
+.nothing{
+    margin-top: 150px;
+    margin-left: 30%;
+    text-align:center;
+    color: black;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.nothing .text span{
+    color: orangered;
+    font-style: italic;
+}

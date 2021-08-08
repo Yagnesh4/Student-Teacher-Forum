@@ -49,90 +49,99 @@
 <body>
 
   <%- include('./partials/teacher_navbar')%>
+<% if(data){ %>
+      <% if (!data.skip) { %>
+    <div class="wrapper">
+      <div class="container">
+        <!-- <div class="id option1" >
+          Time Remaining :- <span id="demo"></span>
+        </div> -->
+        <input type="hidden" id="set-time" value="7"/>
+        <input type="hidden" id="set" value="60"/>
+    <div id="countdown">
+      
+      <div id='tiles' class="color-full"></div>
+      <div class="countdown-label">Time Remaining</div>
+    </div>
+          <div class="row">
 
-
-<div class="wrapper">
-  <div class="container">
-    <!-- <div class="id option1" >
-      Time Remaining :- <span id="demo"></span>
-    </div> -->
-    <input type="hidden" id="set-time" value="7"/>
-    <input type="hidden" id="set" value="60"/>
-<div id="countdown">
-  
-  <div id='tiles' class="color-full"></div>
-  <div class="countdown-label">Time Remaining</div>
-</div>
-      <div class="row">
-
-        <div class="answer">
-         
-          <% if (!data.answer) { %>
-            <% if(!data.skip) { %>
-              <%- data.question%><br>
-            <% }else{ %>
-              <script>window.location.reload(true) = "answerPage";</script>
-              <% } %>
-          <% } else {%>
-            <script>window.location.reload(true) = "answerPage";</script>  
-          <% } %>
+            <div class="answer">
             
+              <% if (!data.answer) { %>
+                    <% if(!data.skip) { %>
+                      <%- data.question%><br>
+                    <% }else{ %>
+                        <script>window.location.reload(true) = "answerPage";</script>
+                      <% } %> 
+              <% }else{ %>
+                <script>window.location.reload(true) = "answerPage";</script>  
+              <% } %>
+            
+            </div>
+          </div>
+        </div>      
+          <div id="textarea" class="container" style="display: none;">
+            <form class="signup" action="/answerPage"  method="POST">
+              <textarea style="white-space: pre-line; padding: 30px;" id="texty" rows="20" name="answer" placeholder="Answer here..."></textarea>
+            
+              
+              <!-- <input type="file" name="file" accept="image/*"> -->
+              <div class="row b">
+                <div class="button ">
+                  <input id="submit" type="submit" value="submit" >
+                </div>
+              </form>
+                <div class=" button ">
+                  <form action="/skip" method="POST">
+                    <input id="btn4" type="submit" class="btn skip" value="skip">
+                  </form>
+                </div>
+                
+              </div>
+              <div class="text">
+                Click the <b>Skip</b> button if you are unable to answer this question.
+              </div>
+
+            
+            <!-- <form class="upload" action="/" enctype="multipart/form-data" method="POST">
+              
+              <input type="submit" value="Submit Answer">
+            </form> -->
+          </div>
+          
+          
+      </div>
+      
+
+    <div id = "option" class="option container " style="display: block;">
+      <div class="row fixed-content">
+        <div class=" option1">
+          <button id="btn1" class="btn " onClick="showHideDiv('textarea'); myStop(); showHideDiv('opt')">Answer</button>
+        </div>
+        <div class=" option1">
+          <form action="/skip" method="POST"> 
+            <button id="btn2" class="btn skip" >Skip</button>
+          </form>
+          
+        </div>  
+        <div class="text option1">
+          Click the <b>Answer</b> button to give an answer to this question.<br>
+          <span>OR</span><br>
+          Click the <b>Skip</b> button to view the next question.
         </div>
       </div>
-    </div>      
-      <div id="textarea" class="container" style="display: none;">
-        <form class="signup" action="/answerPage"  method="POST">
-          <textarea style="white-space: pre-line; padding: 30px;" id="texty" rows="20" name="answer" placeholder="Answer here..."></textarea>
-         
-          
-          <!-- <input type="file" name="file" accept="image/*"> -->
-          <div class="row b">
-            <div class="button ">
-              <input id="submit" type="submit" value="submit" >
-            </div>
-          </form>
-            <div class=" button ">
-              <form action="/skip" method="POST">
-                <input id="btn4" type="submit" class="btn skip" value="skip">
-              </form>
-            </div>
-            
-          </div>
-          <div class="text">
-            Click the <b>Skip</b> button if you are unable to answer this question.
-          </div>
-
-        
-        <!-- <form class="upload" action="/" enctype="multipart/form-data" method="POST">
-          
-          <input type="submit" value="Submit Answer">
-        </form> -->
-      </div>
-      
-      
-   </div>
-   
-
-<div id = "option" class="option container " style="display: block;">
-  <div class="row fixed-content">
-    <div class=" option1">
-      <button id="btn1" class="btn " onClick="showHideDiv('textarea'); myStop(); showHideDiv('opt')">Answer</button>
     </div>
-    <div class=" option1">
-      <form action="/skip" method="POST"> 
-        <button id="btn2" class="btn skip" >Skip</button>
-      </form>
-      
-    </div>  
-    <div class="text option1">
-      Click the <b>Answer</b> button to give an answer to this question.<br>
-      <span>OR</span><br>
-      Click the <b>Skip</b> button to view the next question.
-    </div>
-  </div>
-</div>
-
-
+    <%}else{%>
+      <div class="nothing">
+        <div class="text">No <span>questions</span> to answer. </div>
+      </div>  
+      <div></div>
+      <%}%>
+<% }else{ %>
+  <div class="nothing">
+    <div class="text">No <span>questions</span> to answer. </div>
+  </div>  
+  <%}%>
 
 <!-- <textarea id="field"></textarea><button onclick="formatText()">Make bold</button> -->
 <script>

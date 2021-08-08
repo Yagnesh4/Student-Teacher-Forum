@@ -13,6 +13,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const nodemailer = require('nodemailer');
 const { check, validationResult } = require('express-validator');
+const alert = require('alert');
 /*********************************************************************/
 
 
@@ -36,8 +37,9 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-var urlencodedParser = bodyparser.urlencoded({extended: false});
-app.use(bodyparser.json()) 
+app.use(bodyparser.json({limit:'1000mb'}))
+var urlencodedParser = bodyparser.urlencoded({extended: false, limit:'1000mb'});
+ 
 
 
 /*** setting the view engine and connecting the public folder ***/
@@ -118,16 +120,21 @@ app.get('/question',checkTeacher,ifNotAuthenticated, function(req,res){
 	QuestionChar.find({email: req.user.email}, function(err,data){
    	if(err){throw err}
   	else{
-	   res.render('question', {name: req.user.name, data: data});
+	   res.render('question', {name: req.user.name,data:data[j]});
 		}
 	})
 });
 app.get('/view-qa', checkTeacher,ifNotAuthenticated, function(req,res){
 	QuestionChar.find({email:req.user.email},function(err,data){
-		res.render('view-qa',{name:req.user.name, data:data[j]})
-		j++
-		if(j==data.length){
-			j=0;
+		if(!data[j]){
+			res.redirect('/question')
+		}
+		else{
+			res.render('view-qa',{name:req.user.name, data:data[j]})
+			j++
+			if(j==data.length){
+				j=0;
+			}
 		}
 	})
 	
@@ -211,6 +218,7 @@ app.post('/student-login',  passport.authenticate('student', {
 		
 	});
 	const registered = await details.save();
+
 	console.log('questions successfully saved to database.');
 	QuestionChar.find({email: req.user.email}, function(err,data){
 		if(err){throw err}
@@ -254,13 +262,22 @@ app.get('/answerPage',checkStudent,ifNotAuthenticated,  function(req,res){
 
 var x=0;
 app.get('/view-answer',checkStudent,ifNotAuthenticated, function(req,res){
-	QuestionChar.find({teacher_name:req.user.name},function(err,data){
-		res.render('view-answer',{name:req.user.name, data:data[x]})
-		x++
-		if(x==data.length){
-			x=0;
-		}
-	})
+	
+		QuestionChar.find({teacher_name:req.user.name},function(err,data){
+			try{
+			
+				console.log(data[x].teacher_name)
+				res.render('view-answer',{name:req.user.name, data:data[x]})
+				x++
+				if(x==data.length){
+					x=0;
+				}
+			
+		
+	}catch(e){
+		res.redirect('/teacher-afterlogin')
+	}
+})	
 })
 /**********************************************************************************/
 
@@ -397,133 +414,6 @@ app.post('/admin-login',  passport.authenticate('admin',{
 	}
 	next()
 }
-
-app.get('/admin-register',function(req,res){
-	res.render('admin-register')
-})
-
-app.post('/admin-register',function(req,res){
-	var details = new AdminChar({
-		name: req.body.name,
-					gender: req.body.gender,
-					age: req.body.age,
-					email: req.body.email,
-					number: req.body.number,			
-					password : req.body.password
-	})
-	details.save()
-})
-
-app.get('/admin',function(req,res){
-		res.render('admin')
-})  
-
-var a =0;
-app.get('/view-student',function(req,res){
-	StudentChar.findOne({},function(err,data){
-/*		console.log('<<<<<<<<<< data >>>>>>>>>>>>');
-		console.log(data);
-*/		res.render('view-student',{data:data})
-	});
-})
-app.get('/view-teacher',function(req,res){
-	TeacherChar.find({},function(err,data){
-		res.render('view-teacher',{data:data[j]})
-		a=j;
-		i=j++;
-	
-		if(j==data.length){
-			j=0;
-		}
-	})
-})
-app.post('/reject', (req, res) => {
-	StudentChar.find({}, async function(err,data){
-		
-		await StudentChar.find({}, async function(err,data){
-			await StudentChar.findOneAndUpdate({email:data[0].email}, {'$set': {'accept': false}}).exec(function(err){
-					if (err) {
-						throw err
-					}else{
-						console.log('reject');
-						j=++i;
-						res.redirect('admin')
-						
-					}
-				})	
-		});
-
-   })
- });
-
-app.post('/accept', async function(req,res){
-	StudentChar.find({}, async function(err,data){
-		
-		await StudentChar.find({}, async function(err,data){
-			console.log('##################')
-			console.log(data);
-
-			await StudentChar.findOneAndUpdate({email:data[0].email}, {'$set': {'accept': true}}).exec(function(err){
-					if (err) {
-						throw err
-					}else{
-						console.log('accepted');
-						j=++i;
-						res.redirect('admin')
-						
-					}
-				})	
-		});
-
-   })
-});
-
-app.post('/view-teacher', async function(req,res){
-	await TeacherChar.find({}, async function(err,data){
-			
-			var transporter = nodemailer.createTransport({
-								service: 'gmail',
-								auth: {
-									user: process.env.Mail_id,
-									pass: process.env.Mail_password
-								}
-							});
-		
-							var mailOptions = {
-								from: process.env.Mail_id,
-								to: data[i].email,
-								subject: 'Welcome to Citrine gate Academy!!',
-								text: `Thank you for registering with Citrine gate Academy. Hope you have an amazing time with us.
-		Regards
-		Citrine gate Academy`
-							};
-							console.log(data[i].email)
-							transporter.sendMail(mailOptions, function(error,info){
-								if (error) {
-									console.log(error);
-								}else{
-									console.log('Email Sent to: '  + info.response);
-								}
-							});
-
-
-							
-						await TeacherChar.findOneAndUpdate({email:data[i].email}, {'$set': {'accept': true}}).exec(function(err){
-								if (err) {
-									throw err
-								}else{
-									console.log(data[i].email)
-									console.log('accepted registration');
-									j=++i;
-									res.render('view-teacher',{data:data[j]})
-									if(j==data.length){
-										res.render('admin');
-									}
-								}
-							})	
-							
-	})
-})
 
 
 

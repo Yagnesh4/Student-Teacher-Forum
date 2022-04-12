@@ -72,7 +72,7 @@ app.get('*', function(req, res, next) {
 
 
 /******* Setting up Mongodb connection ******/
-mongoose.connect( "mongodb://ccl:j9CgaZgpSefdCSRWoomBWigPZQ2QH1OIG6n0lzsIGfRsHSKBcGkTORaS1phmHYxrhsYH40Y3WmhQcgTSKhL5BQ==@ccl.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@ccl@" || process.env.DB_link, {useNewUrlParser: true}, { useUnifiedTopology: true }, { useFindAndModify: false } );
+mongoose.connect( process.env.CUSTOMCONNSTR_MyConnectionString || process.env.DB_link, {useNewUrlParser: true}, { useUnifiedTopology: true }, { useFindAndModify: false } );
 mongoose.set('useFindAndModify', false);
 mongoose.connection.once('open', function(){
 	console.log('connection has been made !!');

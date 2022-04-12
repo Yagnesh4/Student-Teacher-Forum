@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="../css/index.css">
+
+</head>
+<body>
+
+  <%- include('./partials/navbar.ejs') %>
+
+<!-- <h2>Login Form</h2> -->
+
+<% if (messages.error) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <%= messages.error %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <% } %>
+
+<div class="wrapper">
+         <div class="title-text">
+            <div class="title signup" style="font-size: 1.5em;">
+               Login with your <span>Teacher's</span> credentials.
+            </div>
+         </div>
+         <div class="form-container">
+            
+            <div class="form-inner">
+               
+               <form class="signup" action="/teacher-login" method="POST">
+                  <div class="field">
+                     <input type="email" name="email" placeholder="Enter Email Address" required>
+                  </div>
+                  <div class="field">
+                    <input type="password" name="password" placeholder="Enter Password" required>
+                 </div>
+                  
+                  <div class="field btn">
+                     <div class="btn-layer"></div>
+                     <input type="submit" value="Signin" >
+                  </div>
+                  <div class="registered">
+                    New to Citrine Gate Academy? <a href="teacher-register">Register</a> 
+                  </div>
+               </form>
+            </div>
+         </div>
+</div>
+
+
+  <script src="css/bootstrap-4.0.0-dist/js/jquery-3.5.1.min.js"></script>
+  <script src="css/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+</body>
+</html>

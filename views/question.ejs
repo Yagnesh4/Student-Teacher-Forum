@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+<!-- <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script> -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<!-- <link rel="stylesheet" href="../css/login.css"> -->
+<link rel="stylesheet" href="../css/index.css">
+<link rel="stylesheet" href="../css/post.css">
+
+<script type="text/javascript">
+  function showHideDiv(ele) {
+    var srcElement = document.getElementById(ele);
+    if (srcElement != null) {
+      if (srcElement.style.display == "block") {
+        srcElement.style.display = 'none';
+      }
+      else {
+        srcElement.style.display = 'block';
+      }
+      return false;
+    }
+  }
+</script>
+
+<style>
+    .wrapper{
+        min-width: 500px;
+        min-height: 500px;
+    }
+    .btn{
+        margin-top: 30px;
+    }
+    .field textarea{
+        margin-bottom: 30px;
+    }
+    form .btn .btn-layer{
+        position: absolute;
+        top: 50%;
+    }
+</style>
+</head>
+<body>
+
+  <%- include('./partials/student_navbar')%>
+
+
+
+<!-- <div class="wrapper">
+        
+         <div class="form-container">
+            
+            <div class="form-inner">
+               
+               <form class="signup" action="/question" method="POST">
+                  <div class="field">
+                    <input>
+                    <textarea  name="text" rows="10" cols="40" placeholder="Ask your question" required></textarea>
+                  </div>
+                  
+                  
+                  
+                  <div class="field btn">
+                     <div class="btn-layer"></div>
+                     <input type="submit" value="Post Question" >
+                  </div>
+                 
+               </form>
+            </div>
+         </div>
+</div> -->
+
+
+<div class="wrapper">
+    <div class="questions img-fluid">
+        <form class="signup" action="/question"  method="POST">
+            <textarea  style="white-space: pre-wrap; padding: 30px" id="text"  name="question" rows="10" cols="85" placeholder="Ask your questions here ..." required></textarea>
+            <div class="button qbtn">
+                <input id="submit" type="submit" onclick="tinyMCE.triggerSave(true,true);"  value="Post Question" >
+            </div>
+        </form><br><br>
+        
+    </div>
+    <%if(data){%>
+    <div class="view-qa">Click <a href="view-qa">here</a> to see your previous questions.</div>
+    <%}%>
+</div>
+
+<script>
+  tinymce.init({
+    selector: '#text',
+    forced_root_block: false,
+    plugins: 'advlist link image lists',
+
+    image_title: true,
+  /* enable automatic uploads of images represented by blob or data URIs*/
+  automatic_uploads: true,
+  /*
+    URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
+    images_upload_url: 'postAcceptor.php',
+    here we add custom filepicker only to Image dialog
+  */
+  file_picker_types: 'image',
+  /* and here's our custom image picker*/
+  file_picker_callback: function (cb, value, meta) {
+    var input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+
+    /*
+      Note: In modern browsers input[type="file"] is functional without
+      even adding it to the DOM, but that might not be the case in some older
+      or quirky browsers like IE, so you might want to add it to the DOM
+      just in case, and visually hide it. And do not forget do remove it
+      once you do not need it anymore.
+    */
+
+    input.onchange = function () {
+      var file = this.files[0];
+
+      var reader = new FileReader();
+      reader.onload = function () {
+        /*
+          Note: Now we need to register the blob in TinyMCEs image blob
+          registry. In the next release this part hopefully won't be
+          necessary, as we are looking to handle it internally.
+        */
+        var id = 'blobid' + (new Date()).getTime();
+        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+        var base64 = reader.result.split(',')[1];
+        var blobInfo = blobCache.create(id, file, base64);
+        blobCache.add(blobInfo);
+
+        /* call the callback and populate the Title field with the file name */
+        cb(blobInfo.blobUri(), { title: file.name });
+      };
+      reader.readAsDataURL(file);
+    };
+
+    input.click();
+  },
+  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+  });
+</script>
+<!-- <script>
+ var editor = CKEDITOR.replace( 'question', {
+    fullPage: false,
+    allowedContent: false,
+    autoGrow_onStartup: true,
+    autoParagraph: false,
+    basicEntities: false,
+    enterMode: CKEDITOR.ENTER_BR,
+    filebrowserBrowseUrl : '/ckfinder/ckfinder.html',
+	filebrowserImageBrowseUrl : '/ckfinder/ckfinder.html?type=Images',
+	filebrowserFlashBrowseUrl : '/ckfinder/ckfinder.html?type=Flash',
+	filebrowserUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+	filebrowserImageUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+	filebrowserFlashUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+  } );
+  jQuery(editor.editable().$).find('br','b','i').remove();
+  config.autoParagraph=false;
+CKFinder.setupCKEditor( editor, '/ckfinder/');
+</script> -->
+<!-- <script>
+  CKEDITOR.replace( 'question', {
+    on:{
+      instanceReady: function(ev)
+      {
+        this.dataProcessor.writer.setRules('p',{
+          indent:true,
+          breakBeforeOpen:false,
+          breakAfterOpen:false,
+          breakBeforeClose:false,
+          breakAfterClose:false,
+        });
+      }
+    }},{
+    fullPage: false,
+    allowedContent: false,
+    autoGrow_onStartup: true,
+    autoParagraph: false,
+    basicEntities: false,
+    enterMode: CKEDITOR.ENTER_BR,
+    filebrowserBrowseUrl : '/ckfinder/ckfinder.html',
+	filebrowserImageBrowseUrl : '/ckfinder/ckfinder.html?type=Images',
+	filebrowserFlashBrowseUrl : '/ckfinder/ckfinder.html?type=Flash',
+	filebrowserUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+	filebrowserImageUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+	filebrowserFlashUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+  } );
+</script> -->
+
+<script>
+  $('#btn1').click(function(){
+   $('#option').hide();
+ })
+</script>
+
+  <script src="css/bootstrap-4.0.0-dist/js/jquery-3.5.1.min.js"></script>
+  <script src="css/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> -->
+
+</body>
+</html>

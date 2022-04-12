@@ -1,0 +1,1 @@
+git pull && npm ci && pm2 restart gate_server && pm2 log gate_server

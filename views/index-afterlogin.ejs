@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Citrine Gate Academy</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+
+</head>
+<body>
+	<%- include('./partials/student_navbar')%>
+    
+    <div class="cover">
+        <div class="fixed-bg ">
+            <div class="bg container-fluid">
+                <div class="row">
+                    <div class="text text1 col-md-4 col-sm-3 col-xs-12">
+                        <i class="fa fa-question-circle "></i>
+                        <div>Ask question on any topic.</div>
+                    </div>
+                    <div class="text col-md-4 col-sm-3 col-xs-12">
+                        <i class="fa fa-check-square-o "></i>
+                        <div>Get answers from the community.</div>
+                    </div>   
+                    <div class="text col-md-4 col-sm-3 col-xs-12">
+                        <i class="	fa fa-pencil-square "></i>
+                        <div>Q&A Forum for students and teachers.</div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<div class="topics">
+		<div class="container ">
+			<div class="wells text-center">Ask <span>doubts</span> on any <span>topic</span></div>
+			<div class="row">
+				<div class="wells-box col-md-6 col-lg-4">
+					<i class="fa fa-html5"></i>
+					<div>Web <span>Design</span></div> 
+				</div>
+				<div class="wells-box col-md-6 col-lg-4">
+					<i class="fa fa-bar-chart"></i>
+					<div>Mark<span>eting</span></div> 
+				</div>
+				<div class="wells-box col-md-6 col-lg-4">
+					<i class="fa fa-code"></i>
+					<div>Software <span>Development</span></div> 
+				</div>
+				<div class="wells-box col-md-6 col-lg-4">
+					<i class="fa fa-wrench"></i>
+					<div><span>Mech</span>anical</div> 
+				</div>
+				<div class="wells-box col-md-6 col-lg-4">
+					<i class="fa fa-lightbulb-o"></i>
+					<div><span>Elect</span>rical</div> 
+				</div>
+				<div class="wells-box col-md-6 col-lg-4">
+					<i class="fa fa-print"></i>
+					<div><span>Printing</span>/packaging</div> 
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- <div id="col-main">
+       <span> Every</span>
+	 <div  id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            Student
+            </div>
+            <div class="carousel-item">
+            Teacher
+            </div>
+	   </div>
+	</div>
+    <span>has a tab open to us.</span>
+
+			
+	</div> -->
+	<div class="con">
+		<div class="container con1">
+			<div class="row">
+				<div class="box box1">
+					<div>Find the best answers to your questions, from the expert.</div>
+					<button class="btn btn-warning" ><a href="question">Ask a question</a></button>
+				</div>
+				<!-- <div class="box box2">
+					<div>Help the students get through their obstacles on time.</div>
+					<button class="btn btn-primary"><a href="teacher-login">Answer a question</a></button>
+				</div> -->
+			</div>
+			<div id="col-main">
+				<span>Every </span><span id="slogan">STUDENT</span><span> has a <br>tab open to us</span>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="review">
+		<div class="container ">
+			<div class="text-center">What <span>Others</span> have to <span>say</span></div>
+			<div class="row">
+				<div class="review-box col-md-6 col-lg-4">
+					<i class="fa fa-quote-left"></i><br>
+					My new site created by Citrine just launched. They've done a great job of creating exactly what I wanted. Easy to work with and very responsive. They met all of my expectations and had a lot of insight regarding marketing tools I didn't know existed.
+				</div>
+				<div class="review-box col-md-6 col-lg-4">
+					<i class="fa fa-quote-left "></i><br>
+					Citrine Web technologies design team far exceeded my expectations on every front, and I have very high expectations. The end product is a beautiful website that embodies who we are as doctors. They are knowledgeable, creative, prompt, and personable.
+				</div>
+				<div class="review-box col-md-12 col-lg-4">
+					<i class="fa fa-quote-left "></i><br>
+					aWorking with the Citrine Web Technologies team has been a most pleasant experience! Their dedication and passion for what they do is exemplified by their unrivaled customer support and attentiveness to the specific needs of our business. 
+				</div>
+			</div>
+		</div>
+	</div>
+    
+
+	
+
+
+	<%- include('./partials/footer')%>
+
+	<script src="css/bootstrap-4.0.0-dist/js/jquery-3.5.1.min.js"></script>
+	<script src="css/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    <script>
+        var $slogan = document.getElementById("slogan");
+
+        // Setting an array with several strings.
+        var sloganArray = ["TEACHER","STUDENT"];
+
+        //Setting variable to control the index.
+        var sloganIndex = 0;
+
+        /* This function (only when called) replaces the text of the element called before with text contained on the strings of the array, each time incrementing one and going through every array position. */
+        function changeSlogan() {
+            $slogan.innerHTML = sloganArray[sloganIndex];
+            ++sloganIndex;
+            if (sloganIndex >= sloganArray.length) {
+                sloganIndex = 0;
+            }
+        }
+
+        //Calling the function created before every five seconds.
+        setInterval(changeSlogan,6000);
+    </script>
+	
+</body>
+</html>
+
+
+	

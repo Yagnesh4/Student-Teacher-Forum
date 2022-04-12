@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+<script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script> -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<!-- <link rel="stylesheet" href="../css/login.css"> -->
+<link rel="stylesheet" href="../css/index.css">
+<link rel="stylesheet" href="../css/post.css">
+
+<script type="text/javascript">
+  function showHideDiv(ele) {
+    var srcElement = document.getElementById(ele);
+    if (srcElement != null) {
+      if (srcElement.style.display == "block") {
+        srcElement.style.display = 'none';
+      }
+      else {
+        srcElement.style.display = 'block';
+      }
+      return false;
+    }
+  }
+</script>
+
+<style>
+    .wrapper{
+        min-width: 500px;
+        min-height: 500px;
+    }
+    .btn{
+        margin-top: 30px;
+    }
+    .field textarea{
+        margin-bottom: 30px;
+    }
+    form .btn .btn-layer{
+        position: absolute;
+        top: 50%;
+    }
+</style>
+</head>
+<body>
+
+  <%- include('./partials/teacher_navbar')%>
+<% if(data.question){ %>
+      <% if (!data.skip) { %>
+    <div class="wrapper">
+      <div class="container">
+        <!-- <div class="id option1" >
+          Time Remaining :- <span id="demo"></span>
+        </div> -->
+        <input type="hidden" id="set-time" value="7"/>
+        <input type="hidden" id="set" value="60"/>
+    <div id="countdown">
+      
+      <div id='tiles' class="color-full"></div>
+      <div class="countdown-label">Time Remaining</div>
+    </div>
+          <div class="row">
+
+            <div class="answer">
+            
+              <% if (!data.answer) { %>
+                    <% if(!data.skip) { %>
+                      <%- data.question%><br>
+                    <% }else{ %>
+                        <script>window.location.reload(true) = "answerPage";</script>
+                      <% } %> 
+              <% }else{ %>
+                <script>window.location.reload(true) = "answerPage";</script>  
+              <% } %>
+            
+            </div>
+          </div>
+        </div>      
+          <div id="textarea" class="container" style="display: none;">
+            <form class="signup" action="/answerPage"  method="POST">
+              <textarea style="white-space: pre-line; padding: 30px;" id="texty" rows="20" name="answer" placeholder="Answer here..."></textarea>
+            
+              
+              <!-- <input type="file" name="file" accept="image/*"> -->
+              <div class="row b">
+                <div class="button ">
+                  <input id="submit" type="submit" value="submit" >
+                </div>
+              </form>
+                <div class=" button ">
+                  <form action="/skip" method="POST">
+                    <input id="btn4" type="submit" class="btn skip" value="skip">
+                  </form>
+                </div>
+                
+              
+                <div class="text">
+                  Click the <b>Skip</b> button if you are unable to answer this question.
+                </div>
+              </div>  
+            
+            <!-- <form class="upload" action="/" enctype="multipart/form-data" method="POST">
+              
+              <input type="submit" value="Submit Answer">
+            </form> -->
+          </div>
+          
+          
+      </div>
+      
+    
+    <div id = "option" class="option container " style="display: block;">
+      <div class="row fixed-content">
+        <div class=" option1">
+          <button id="btn1" class="btn " onClick="showHideDiv('textarea'); myStop(); showHideDiv('opt')">Answer</button>
+        </div>
+        <div class=" option1">
+          <form action="/skip" method="POST"> 
+            <button id="btn2" class="btn skip" >Skip</button>
+          </form>
+          
+        </div>  
+        <div class="text option1">
+          Click the <b>Answer</b> button to give an answer to this question.<br>
+          <span>OR</span><br>
+          Click the <b>Skip</b> button to view the next question.
+        </div>
+      </div>
+    </div>
+    <%}else{%>
+      <h2 class="msg"><%- msg %></h2>
+      <%}%>
+<% }else{ %>
+  
+  <h2><%- msg %></h2>
+<%}%> 
+<% if(!data.question) { %>
+  <h2>NO MESSAGES SIR</h2>
+  <% } %>
+<!-- <textarea id="field"></textarea><button onclick="formatText()">Make bold</button> -->
+<script>
+  tinymce.init({
+    selector: '#texty',
+    forced_root_block: false,
+    plugins: 'advlist link image lists',
+    
+    image_title: true,
+  /* enable automatic uploads of images represented by blob or data URIs*/
+  automatic_uploads: true,
+  /*
+    URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
+    images_upload_url: 'postAcceptor.php',
+    here we add custom filepicker only to Image dialog
+  */
+  file_picker_types: 'image',
+  /* and here's our custom image picker*/
+  file_picker_callback: function (cb, value, meta) {
+    var input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+
+    /*
+      Note: In modern browsers input[type="file"] is functional without
+      even adding it to the DOM, but that might not be the case in some older
+      or quirky browsers like IE, so you might want to add it to the DOM
+      just in case, and visually hide it. And do not forget do remove it
+      once you do not need it anymore.
+    */
+
+    input.onchange = function () {
+      var file = this.files[0];
+
+      var reader = new FileReader();
+      reader.onload = function () {
+        /*
+          Note: Now we need to register the blob in TinyMCEs image blob
+          registry. In the next release this part hopefully won't be
+          necessary, as we are looking to handle it internally.
+        */
+        var id = 'blobid' + (new Date()).getTime();
+        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+        var base64 = reader.result.split(',')[1];
+        var blobInfo = blobCache.create(id, file, base64);
+        blobCache.add(blobInfo);
+
+        /* call the callback and populate the Title field with the file name */
+        cb(blobInfo.blobUri(), { title: file.name });
+      };
+      reader.readAsDataURL(file);
+    };
+
+    input.click();
+  },
+  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+  });
+</script>
+<!--     
+<script>
+  $('#btn3').on('click',function(){
+    $.ajax({
+      type: 'POST',
+      url:'/answerPage',
+      data:{answer: $('#texty')},
+      success: function(data){
+        alert(data)
+      }
+    });
+  })
+</script> -->
+    
+
+<!-- <script>
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+          clearInterval(timer)
+    document.getElementById("demo").innerHTML = "EXPIRED";
+    window.location = "answerPage";
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 60*7 ,
+        display = document.querySelector('#demo');
+    startTimer(fiveMinutes, display);
+};
+</script> -->
+
+<!-- <script>
+  var editor = CKEDITOR.replace( 'answer', {
+     fullPage: false,
+     allowedContent: false,
+     autoGrow_onStartup: true,
+     basicEntities: false,
+     enterMode: CKEDITOR.ENTER_BR,
+     filebrowserBrowseUrl : '/index',
+   filebrowserImageBrowseUrl : '/ckfinder/ckfinder.html?type=Images',
+   filebrowserFlashBrowseUrl : '/ckfinder/ckfinder.html?type=Flash',
+   filebrowserUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+   filebrowserImageUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+   filebrowserFlashUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+   } );
+   jQuery(editor.editable().$).find('br','b','i').remove();
+ CKFinder.setupCKEditor( editor, '/ckfinder/');
+ </script> -->
+
+<script>
+   $('#btn1').click(function(){
+    $('#option').hide();
+  })
+</script>
+<!-- <script>
+  $('#btn1').click(function(){
+   $('#countdown').hide();
+ })
+</script> -->
+
+<!-- <script>
+  ClassicEditor
+	.create( document.querySelector( '#texty' ), {
+		ckfinder: {
+			uploadUrl: "http://localhost:3000/answerPage" ,
+		},
+		toolbar: [   'heading', '|', 'bold', 'italic', '|', 'undo', 'redo' ]
+	} )
+	.catch( error => {
+		console.error( error );
+	} );
+</script> -->
+
+<!-- <script>
+   $('.skip').click(function(){
+    window.location.reload(true) = "answerPage";
+  })
+</script> -->
+
+
+<script>
+  var minutes = $( '#set-time' ).val();
+  var target_date = new Date().getTime() + ((minutes * 60 ) * 1000); // set the countdown date
+  var time_limit = ((minutes * 60 ) * 1000);
+  //set actual timer
+  setTimeout(
+    function() 
+    {
+      // alert( 'done' );
+    }, time_limit );
+
+  var days, hours, minutes, seconds; // variables for time units
+  var countdown = document.getElementById("tiles"); // get tag element
+  getCountdown();
+  var yourInterval= setInterval(function () { getCountdown(); }, 1000);
+  function getCountdown(){
+   // find the amount of "seconds" between now and target
+    var current_date = new Date().getTime();
+    var seconds_left = (target_date - current_date) / 1000;
+    
+  if ( seconds_left >= 0 ) {
+    // console.log(time_limit);
+    if ( (seconds_left * 1000 ) < ( time_limit / 2 ) )  {
+      $( '#tiles' ).removeClass('color-full');
+      $( '#tiles' ).addClass('color-half');
+
+      } 
+      if ( (seconds_left * 1000 ) < ( time_limit / 4 ) )  {
+        $( '#tiles' ).removeClass('color-half');
+        $( '#tiles' ).addClass('color-empty');
+      }
+
+    days = pad( parseInt(seconds_left / 86400) );
+    seconds_left = seconds_left % 86400;
+      
+    hours = pad( parseInt(seconds_left / 3600) );
+    seconds_left = seconds_left % 3600;
+        
+    minutes = pad( parseInt(seconds_left / 60) );
+    seconds = pad( parseInt( seconds_left % 60 ) );
+
+    // format countdown string + set tag value
+    countdown.innerHTML = "<span>" + hours + ":</span><span>" + minutes + ":</span><span>" + seconds + "</span>";   
+  }
+    if(seconds_left<0){
+      window.location = "answerPage";
+    }
+  }
+  function pad(n) {
+    return (n < 10 ? '0' : '') + n;
+  }
+
+
+function myStop() {
+  clearInterval(yourInterval);
+   var min = $( '#set' ).val();
+
+  var target_date = new Date().getTime() + ((min * 60 ) * 1000); // set the countdown date
+  var time_limit = ((min * 60 ) * 1000);
+
+  setTimeout(
+    function() 
+    {
+      // alert( 'done' );
+    }, time_limit );
+
+  var days, hours, minutes, seconds; // variables for time units
+  var countdown = document.getElementById("tiles"); // get tag element
+  getCountdown();
+  setInterval(function () { getCountdown(); }, 1000);
+  function getCountdown(){
+    // find the amount of "seconds" between now and target
+    var current_date = new Date().getTime();
+    var seconds_left = (target_date - current_date) / 1000;
+    
+  if ( seconds_left >= 0 ) {
+    // console.log(time_limit);
+    if ( (seconds_left * 1000 ) < ( time_limit / 2 ) )  {
+      $( '#tiles' ).removeClass('color-full');
+      $( '#tiles' ).addClass('color-half');
+
+      } 
+      if ( (seconds_left * 1000 ) < ( time_limit / 4 ) )  {
+        $( '#tiles' ).removeClass('color-half');
+        $( '#tiles' ).addClass('color-empty');
+      }
+
+    days = pad( parseInt(seconds_left / 86400) );
+    seconds_left = seconds_left % 86400;
+      
+    hours = pad( parseInt(seconds_left / 3600) );
+    seconds_left = seconds_left % 3600;
+        
+    minutes = pad( parseInt(seconds_left / 60) );
+    seconds = pad( parseInt( seconds_left % 60 ) );
+
+    // format countdown string + set tag value
+    countdown.innerHTML = "<span>" + hours + ":</span><span>" + minutes + ":</span><span>" + seconds + "</span>"; 
+  }
+  if(seconds_left<0){
+  window.location = "answerPage";
+  }
+}
+  function pad(n) {
+	  return (n < 10 ? '0' : '') + n;
+  }
+}
+</script>
+
+<!-- <script type="text/javascript" >
+  function formatText() {
+      //gets text
+      //text = document.getElementById('field').value;
+      //formats it
+      document.getElementById('field').style.fontWeight = "bold";
+  }
+</script> -->
+
+<!-- <script>
+// Set the date we're counting down to
+var countDownDate = new Date(" 07:00").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script> -->
+
+
+  <script src="css/bootstrap-4.0.0-dist/js/jquery-3.5.1.min.js"></script>
+  <script src="css/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+  <!-- <script>
+    $(function() {
+    $( ".bt1" ).click(function() {
+        $( ".textarea" ).toggle();
+    });
+});
+  </script> -->
+
+</body>
+</html>

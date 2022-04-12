@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/about-us.css">
+    
+
+</head>
+<body>
+    <header>
+        <nav id="header-nav" class="navbar navbar-expand-lg  ">
+            <div >
+                
+            </div>
+                <div class="navbar-brand mr-auto">
+                    <a href="teacher-afterlogin"><h1>Citrine <span class="nav-br">Gate Academy</span></h1></a>
+                </div>
+                
+
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#target">
+                <span ><i style="color: black;" class="fa fa-navicon"></i></span>
+                
+            </button>
+
+            <div class="collapse navbar-collapse" id="target">		
+                <ul id="nav-list" class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="teacher-afterlogin">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="aboutus-teacher">About Us</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="answerPage">Answer Page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view-answer">Previously Answered</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropbtn" href="#"> Hello <%= name%><i class="fa fa-caret-down"></i></a>
+                        <div class="dropdown-content ">
+                            <form  action="/logout?_method=DELETE" method="POST">
+                                <button class="logout" id="button" type="submit">Log Out</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+    
+    </nav>
+</header>
+</body>
+</html>
+

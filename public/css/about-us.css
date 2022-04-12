@@ -1,0 +1,148 @@
+.bg-image {
+	/* The image used */
+	background-image: url("../images/cover.png");
+	
+	/* Add the blur effect */
+	filter: blur(8px);
+	-webkit-filter: blur(8px);
+	
+	/* Full height */
+	width: 100%;
+	height: 500px; 
+	
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+  }
+  
+  /* Position text in the middle of the page/image */
+  .bg-text {
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+	color: white;
+	font-weight: bold;
+	border: 3px solid #f1f1f1;
+	position: relative;
+	top: -250px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+	width: 40%;
+	padding: 20px;
+	text-align: center;
+	font-size: 2em;
+  }
+  .bg-text span{
+	  color: orangered;
+	  font-style: italic;
+  }
+
+  .about-text{
+	  margin: 100px;
+	  margin-top: auto;
+	  padding: 30px;
+	  font-size: x-large;
+	  font-weight: 500;
+  }
+  .meet-team{
+	  margin-bottom: 100px;
+  }
+  .meet-team .team{
+	  margin-left: 40%;
+	  text-align: center;
+	  font-size: 2.5em;
+	  font-weight: bold;
+  }
+  .team span{
+	  color: orangered;
+	  font-style: italic;
+  }
+  .card .card-img-top{
+	  min-height: 300px;
+  }
+  .card .card-title{
+	  text-align: center;
+  }
+
+@media (min-width: 1200px){
+	.bg-text h1{
+		font-size: 2em;
+	}
+}
+@media (min-width: 992px) and (max-width: 1199px){
+	.bg-text h1{
+		font-size: 1.8em;
+	}
+	.about-text{
+		margin: 50px;
+		margin-top: -50px;
+		padding: 15px;
+		font-size: 1.5em;
+		font-weight: 500;
+	}
+	.meet-team .team{
+		font-size: 2.9em;
+		margin-left: 35%;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px){
+	.bg-text{
+		width: 50%;
+	}
+	.bg-text h1{
+		font-size: 1.6em;
+	}
+	.about-text{
+		margin: 50px;
+		margin-top: -50px;
+		padding: 15px;
+		font-size: 1.5em;
+		font-weight: 500;
+	}
+	.meet-team .team{
+		font-size: 2.7em;
+		margin-left: 25%;
+	}
+}  
+@media (max-width:767px){
+	.bg-text{
+		width: 50%;
+	}
+	.bg-text h1{
+		font-size: 1.5em;
+	}
+	.about-text{
+		margin: 50px;
+		margin-top: -50px;
+		padding: 15px;
+		font-size: 1.3em;
+		font-weight: 500;
+	}
+	.meet-team .team{
+		font-size: 2.5em;
+		margin-left: 25%;
+	}
+}  
+
+@media (max-width: 576px){
+	.bg-text{
+		width: 50%;
+	}
+	.bg-text h1{
+		font-size: 1em;
+	}
+	.about-text{
+		margin: 50px;
+		margin-top: -50px;
+		padding: 15px;
+		font-size: large;
+		font-weight: 500;
+	}
+	.meet-team .team{
+		font-size: 2em;
+		margin-left: 25%;
+	}
+}
+
+  
